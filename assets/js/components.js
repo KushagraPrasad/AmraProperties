@@ -4,6 +4,33 @@ const components = {
         const homeLink = isRoot ? 'index.html' : '../index.html';
         const logoPath = isRoot ? 'assets/images/logo.png' : '../assets/images/logo.png';
 
+        // Dynamically compute current active page for visual tracking
+        const path = window.location.pathname;
+        let activePage = 'home';
+        if (path.includes('property.html')) {
+            activePage = 'property';
+        } else if (path.includes('about.html')) {
+            activePage = 'about';
+        } else if (path.includes('contact.html')) {
+            activePage = 'contact';
+        } else if (path.includes('privacy.html') || path.includes('terms.html')) {
+            activePage = '';
+        } else {
+            activePage = 'home';
+        }
+
+        const getLinkClass = (page) => {
+            return activePage === page 
+                ? 'text-amra-primary font-bold text-sm transition-colors' 
+                : 'text-gray-600 hover:text-amra-primary font-medium text-sm transition-colors';
+        };
+
+        const getMobileLinkClass = (page) => {
+            return activePage === page
+                ? 'text-amra-primary font-bold text-base transition-colors'
+                : 'text-slate-600 hover:text-amra-primary font-semibold text-base transition-colors';
+        };
+
         return `
     <!-- Navbar -->
     <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
@@ -14,10 +41,10 @@ const components = {
             </a>
 
             <div class="hidden md:flex items-center gap-8">
-                <a href="${homeLink}" class="text-amra-primary font-semibold text-sm">Home</a>
-                <a href="${prefix}property.html" class="text-gray-600 hover:text-amra-primary font-medium text-sm transition-colors">Property</a>
-                <a href="${prefix}about.html" class="text-gray-600 hover:text-amra-primary font-medium text-sm transition-colors">About Us</a>
-                <a href="${prefix}contact.html" class="text-gray-600 hover:text-amra-primary font-medium text-sm transition-colors">Contact</a>
+                <a href="${homeLink}" class="${getLinkClass('home')}">Home</a>
+                <a href="${prefix}property.html" class="${getLinkClass('property')}">Property</a>
+                <a href="${prefix}about.html" class="${getLinkClass('about')}">About Us</a>
+                <a href="${prefix}contact.html" class="${getLinkClass('contact')}">Contact</a>
             </div>
 
             <div class="hidden md:flex items-center gap-4">
@@ -48,10 +75,10 @@ const components = {
                 </div>
                 
                 <nav class="flex flex-col gap-5">
-                    <a href="${homeLink}" class="text-amra-primary font-bold text-base">Home</a>
-                    <a href="${prefix}property.html" class="text-gray-600 hover:text-amra-primary font-semibold text-base transition-colors">Property</a>
-                    <a href="${prefix}about.html" class="text-gray-600 hover:text-amra-primary font-semibold text-base transition-colors">About Us</a>
-                    <a href="${prefix}contact.html" class="text-gray-600 hover:text-amra-primary font-semibold text-base transition-colors">Contact</a>
+                    <a href="${homeLink}" class="${getMobileLinkClass('home')}">Home</a>
+                    <a href="${prefix}property.html" class="${getMobileLinkClass('property')}">Property</a>
+                    <a href="${prefix}about.html" class="${getMobileLinkClass('about')}">About Us</a>
+                    <a href="${prefix}contact.html" class="${getMobileLinkClass('contact')}">Contact</a>
                 </nav>
             </div>
             
